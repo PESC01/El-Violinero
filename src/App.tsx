@@ -1,13 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import { Menu, X, Music, Calendar, Phone, MapPin, Clock } from 'lucide-react';
+import { Menu, X, Music, Calendar, Phone, MapPin, Clock, MessageSquare } from 'lucide-react';
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [showWhatsappOptions, setShowWhatsappOptions] = useState(false);
 
   useEffect(() => {
     setIsVisible(true);
   }, []);
+
+  const phoneNumber = "61671615";
+  const whatsappBaseUrl = `https://wa.me/591${phoneNumber}`;
+
+  const handleWhatsappConsulta = () => {
+    window.open(`${whatsappBaseUrl}?text=Hola,%20me%20gustaría%20realizar%20una%20consulta.`, '_blank');
+  };
+
+  const handleWhatsappReserva = () => {
+    window.open(`${whatsappBaseUrl}?text=Hola,%20me%20gustaría%20realizar%20una%20reserva.`, '_blank');
+  };
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -44,6 +56,33 @@ function App() {
           </div>
         </div>
       </nav>
+
+      {/* WhatsApp Floating Button */}
+      <div className="fixed bottom-6 right-6 z-50">
+        <div className={`absolute bottom-16 right-0 ${showWhatsappOptions ? 'opacity-100 scale-100' : 'opacity-0 scale-0'} transition-all duration-300 flex flex-col gap-3 mb-2`}>
+          <button
+            onClick={handleWhatsappReserva}
+            className="bg-green-600 text-white rounded-full px-4 py-2 flex items-center shadow-lg hover:bg-green-700 transition-colors"
+          >
+            <span>Realizar reserva</span>
+          </button>
+          <button
+            onClick={handleWhatsappConsulta}
+            className="bg-green-600 text-white rounded-full px-4 py-2 flex items-center shadow-lg hover:bg-green-700 transition-colors"
+          >
+            <span>Consultar</span>
+          </button>
+        </div>
+        <button
+          onClick={() => setShowWhatsappOptions(!showWhatsappOptions)}
+          className="bg-green-600 text-white rounded-full p-4 shadow-lg hover:bg-green-700 transition-colors"
+        >
+          {showWhatsappOptions ?
+            <X size={24} /> :
+            <MessageSquare size={24} />
+          }
+        </button>
+      </div>
 
       {/* Hero Section */}
       <section id="home" className="relative h-screen flex items-center justify-center">
